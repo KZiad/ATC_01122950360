@@ -1,0 +1,312 @@
+.page,
+.page * {
+  box-sizing: border-box;
+}
+.page {
+  background: #f3effb;
+  height: 800px;
+  position: relative;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: #f3effb;
+  border-radius: 5px;
+  padding: 20px 50px 20px 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 210px;
+}
+.events {
+  color: #000000;
+  text-align: left;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 50px;
+  font-weight: 600;
+  padding: 20px 0 20px 50px;
+}
+
+.logo-2 {
+  width: 168.61px;
+  height: 38px;
+  position: relative;
+  object-fit: cover;
+  aspect-ratio: 168.61/38;
+}
+
+.header-button {
+  background: #794cd1;
+  border-radius: 15px;
+  width: 100px;
+  height: 100%;
+}
+.header-button-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 550;
+  top: 50%;
+  width: 87.99px;
+  height: 39.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.event-card-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 359px;
+  padding: 0 50px 0 50px;
+  flex-wrap: wrap;
+}
+.event-card {
+  background: #f3effb;
+  border-radius: 15px;
+  padding: 5px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-shrink: 0;
+  width: 333px;
+  height: 373px;
+  box-shadow: 0px 7px 5px 0px rgba(0, 0, 0, 0.25);
+}
+.frame-14 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.group-5 {
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 212.42px;
+  position: static;
+  width: 323px;
+  height: auto; /* Fallback for browsers that do not support aspect-ratio */
+  aspect-ratio: 323/212.42;
+}
+.event-card-image {
+  border-radius: 28px;
+  width: 323px;
+  height: 212.42px;
+  aspect-ratio: 323/212.42;
+}
+.frame-15 {
+  padding: 0px 8px 0px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.event-name-price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.event-name {
+  color: #000000;
+  text-align: left;
+  font-family: "segoe ui", sans-serif;
+  font-size: 32px;
+  line-height: 150%;
+  font-weight: 500;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.event-price {
+  color: #000000;
+  text-align: center;
+  font-family: "segoe ui", sans-serif;
+  font-size: 20px;
+  line-height: 150%;
+  font-weight: 600;
+  flex-shrink: 0;
+  width: 80px;
+  height: 28.08px;
+  position: static;
+}
+.event-date {
+  color: #000000;
+  text-align: left;
+  font-family: "segoe ui", sans-serif;
+  font-size: 20px;
+  line-height: 150%;
+  font-weight: 450;
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.event-venue {
+  color: #000000;
+  text-align: left;
+  font-family: "segoe ui", sans-serif;
+  font-size: 20px;
+  line-height: 150%;
+  font-weight: 450;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.group-62 {
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 39.08px;
+  position: static;
+}
+.event-button {
+  border-radius: 15px;
+  width: 100%;
+  height: 39.08px;
+  margin: auto;
+  justify-self: center;
+}
+.book-now {
+  background: #794cd1;
+}
+.booked {
+  background: rgba(121, 76, 209, 0.68);
+}
+.event-over {
+  background: #a7a7a7;
+}
+
+.event-button-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "segoe ui", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 600;
+  width: 218.06px;
+  height: 100%;
+  margin: auto;
+}
+
+.log-in-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 373px;
+  color: #000000;
+  text-align: left;
+  font-family: "segoe ui", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 600;
+  margin: 50px auto auto auto;
+  gap: 30px;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.input-container {
+  display: flex;
+  flex-direction: column;
+}
+input {
+  all: unset;
+  background: #f3effb;
+  border-radius: 10px;
+  height: 50px;
+  text-align: center;
+  font-family: "segoe ui", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 600;
+  margin-top: 10px;
+  outline-style: solid;
+  outline-width: 1px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  text-align: left;
+  padding: 0 20px 0 20px;
+}
+
+.auth-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 20px 20px 20px;
+}
+
+.auth-button {
+  background: #794cd1;
+  border-radius: 15px;
+  width: 150px;
+  height: 100%;
+}
+.auth-button-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 550;
+  top: 50%;
+  width: 150px;
+  height: 39.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.confirm-button {
+  background: #794cd1;
+  border-radius: 15px;
+  width: 200px;
+  margin: auto;
+  height: 100%;
+}
+.confirm-button-text {
+  color: #ffffff;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 24px;
+  line-height: 150%;
+  font-weight: 500;
+  top: 50%;
+  width: max-content;
+  height: 39.4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
