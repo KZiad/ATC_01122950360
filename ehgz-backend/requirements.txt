@@ -1,0 +1,13 @@
+Django>=4.2
+djangorestframework
+psycopg2-binary
+python-dotenv
+django-modeltranslation
+djangorestframework-simplejwt
+Pillow
+dj-rest-auth
+django-cors-headers
+django-filter
+drf-yasg
+django-allauth
+requests
