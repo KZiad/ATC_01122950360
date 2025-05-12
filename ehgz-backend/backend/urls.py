@@ -48,6 +48,6 @@ urlpatterns = [
     path('api/auth/', include('dj_rest_auth.urls')),
 
     # Apps
-    path('api/events', include('apps.events.urls')),
+    path('api/events/', include('apps.events.urls')),
     path('api/book/', include('apps.bookings.urls')),
 ]+ static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -66,4 +66,5 @@ class EventListSerializer(ModelSerializer):
         """Check if the user is in the booked_by field."""
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return request.user in object.booked_by.all()
+            return object.booked_by.filter(id=request.user.id).exists()
+        return False

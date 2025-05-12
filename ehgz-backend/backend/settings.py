@@ -34,13 +34,9 @@ SITE_ID = 1
 # Authentication settings
 # ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'
-
-# Signup fields
-ACCOUNT_SIGNUP_FIELDS = ['email', 'name', 'password']
-ACCOUNT_LOGIN_METHODS = ['email']
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
 
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'accounts.serializers.CustomRegisterSerializer',
@@ -79,8 +75,8 @@ AUTH_USER_MODEL = 'accounts.user'
 MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.security.SecurityMiddleware",
-    'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -159,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Africa/Cairo'
 
 USE_I18N = True
 
@@ -179,9 +175,9 @@ ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split()
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'apps.accounts.authentication.CookieJWTAuthentication',  # <-- use your custom class
     ),
-     "DEFAULT_PERMISSION_CLASSES": [
+    "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
 }
@@ -202,3 +198,7 @@ REST_AUTH = {
     "JWT_AUTH_REFRESH_COOKIE": "ehgz-refresh-token",
     "REGISTER_SERIALIZER": "apps.accounts.serializers.CustomRegisterSerializer",
 }
+AUTHENTICATION_BACKENDS = [
+    "allauth.account.auth_backends.AuthenticationBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]

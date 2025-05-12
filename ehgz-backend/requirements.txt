@@ -9,5 +9,5 @@ dj-rest-auth
 django-cors-headers
 django-filter
 drf-yasg
-django-allauth
+django-allauth==65.2.0
 requests
