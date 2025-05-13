@@ -45,8 +45,10 @@ class VerifyTokenView(APIView):
             return Response({"detail": "Token not provided."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             AccessToken(token)
+            User = get_user_model()
             user_id = AccessToken(token).get('user_id')
-            return Response({"detail": "Token is valid.","pk":user_id}, status=status.HTTP_200_OK)
+            is_admin = User.objects.get(id=user_id).is_superuser
+            return Response({"detail": "Token is valid.","isadmin":is_admin}, status=status.HTTP_200_OK)
         except TokenError:
             return Response({"detail": "Token is invalid or expired."}, status=status.HTTP_401_UNAUTHORIZED)
 

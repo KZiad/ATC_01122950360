@@ -1,10 +1,9 @@
 <template>
-  <div class="events">Events</div>
-  <EventList />
+
+
+    <EventList />
 </template>
 <script setup>
-
-import EventList from '../components/EventList.vue';
-
+import EventList from "../components/EventList.vue";
 </script>
 <style src="../assets/style.css" scoped></style>

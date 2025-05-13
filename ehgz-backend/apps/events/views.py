@@ -4,14 +4,15 @@ from .models import Event
 from .pagination import EventPagination
 from .serializers import EventSerializer, EventListSerializer
 from rest_framework.response import Response
-from rest_framework import permissions
+from rest_framework import permissions, filters
 
 
 class EventListView(generics.ListCreateAPIView):
     queryset = Event.objects.all()
     pagination_class = EventPagination
     permission_classes = [permissions.AllowAny]
-
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name', 'description', 'category__name']
     def post(self, request, *args, **kwargs):
         self.pagination_class = None
         serializer = self.get_serializer(data=request.data)
@@ -21,6 +22,7 @@ class EventListView(generics.ListCreateAPIView):
     
     def get(self, request, *args, **kwargs):
         self.pagination_class = EventPagination
+
         return super().get(request, *args, **kwargs)
     
     def get_serializer_class(self):

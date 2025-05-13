@@ -38,14 +38,16 @@ class EventSerializer(ModelSerializer):
         read_only_fields = ['id', 'booked']
 
     def get_booked(self, obj):
+        object = Event.objects.get(id=obj.id)
         """Check if the user is in the booked_by field."""
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            return request.user in obj.booked_by.all()
+            return object.booked_by.filter(id=request.user.id).exists()
         return False
 class EventListSerializer(ModelSerializer):
     category = CategorySerializer(read_only=True)
     booked = SerializerMethodField()
+    isAdmin = SerializerMethodField()
     class Meta:
         model = Event
         fields = [
@@ -57,7 +59,8 @@ class EventListSerializer(ModelSerializer):
             'venue',
             'price',
             'image',
-            'booked'
+            'booked',
+            'isAdmin'
         ]
         read_only_fields = ['id', 'booked']
 
@@ -67,4 +70,10 @@ class EventListSerializer(ModelSerializer):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
             return object.booked_by.filter(id=request.user.id).exists()
+        return False
+    def get_isAdmin(self, obj):
+        """Check if the user is an admin."""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return request.user.is_staff
         return False

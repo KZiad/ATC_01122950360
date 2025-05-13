@@ -6,7 +6,8 @@
                 :src="eventImageUrl"
                 alt="Event Image"
         /></router-link>
-        <div class="event-card-category"> {{ category }}</div>
+        <div class="category-settings" v-if="isAdmin" ><div class="event-card-category"> {{ category }}</div><router-link :to="`/details/${eventID}/edit`"><img class="edit-cog" src="../assets/settings.png" /></router-link></div>
+        <div class="category-settings" v-else ><div class="event-card-category"> {{ category }}</div></div>
         <div class="frame-15">
             <div class="event-name-price">
                 <div class="event-name">{{ eventName }}</div>
@@ -19,7 +20,7 @@
             <router-link
                 :to="`/details/${eventId}`"
                 class="event-button"
-                :class="{ 'book-now': !booked, booked: booked }"
+                :class="{ 'book-now': !booked, 'booked': booked }"
             >
                 <div class="event-button-text">
                     {{ booked ? "Booked" : "Book Now" }}
@@ -32,6 +33,7 @@
 </template>
 
 <script>
+import { inject } from "vue";
 export default {
     name: "EventCard",
     props: {
@@ -78,6 +80,12 @@ export default {
                 year: "numeric", // Full year (e.g., 2025)
             }).format(new Date(this.eventDate));
         },
+    },
+    setup() {
+        const isAdmin = inject("isAdmin");
+        return {
+            isAdmin,
+        };
     },
 };
 </script>

@@ -44,6 +44,20 @@ const router = useRouter();
 const email_input = ref("");
 const password_input = ref("");
 const isAuthenticated = inject("isAuthenticated");
+const isAdmin = inject("isAdmin");
+async function checkAdmin() {
+  const apiUrl = process.env.VUE_APP_API_URL;
+  try {
+    const response = await axios.get(`${apiUrl}/api/auth/token/verify/`);
+    if (response.status === 200) {
+      isAdmin.value = response.data.isadmin;
+
+    }
+  } catch (error) {
+    isAdmin.value = false;
+    console.error("Failed to fetch user data:", error);
+  }
+}
 
 
 function onInputEmail(event) {
@@ -64,13 +78,16 @@ async function login() {
       console.log("Logged in!");
       document.cookie = `ehgz-access-token=${response.data.access}; path=/`;
       isAuthenticated.value = true;
+      checkAdmin();
       router.push("/");
     }
   } catch (error) {
     isAuthenticated.value = false;
+    isAdmin.value = false;
     console.error("Login failed:", error);
   }
-  
+
+
 }
 </script>
 <style src="../assets/style.css" scoped></style>

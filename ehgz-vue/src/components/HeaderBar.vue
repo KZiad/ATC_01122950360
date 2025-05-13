@@ -31,6 +31,7 @@
 import { inject, onMounted } from "vue";
 import axios from "axios";
 const isAuthenticated = inject("isAuthenticated");
+const isAdmin = inject("isAdmin");
 async function verifyToken() {
     const apiUrl = process.env.VUE_APP_API_URL;
 
@@ -39,10 +40,14 @@ async function verifyToken() {
         if (response.status === 200) {
             console.log("Logged in!");
             isAuthenticated.value = true;
+                            checkAdmin();
+
         }
     } catch (error) {
         console.error("Token verification failed:", error);
         isAuthenticated.value = false;
+        isAdmin.value = false;
+
         // Attempt to refresh the token
         try {
             const refreshResponse = await axios.post(
@@ -50,11 +55,14 @@ async function verifyToken() {
             );
             if (refreshResponse.status === 200) {
                 console.log("Token refreshed!");
+                checkAdmin();
+                // refresh route
                 isAuthenticated.value = true;
             }
         } catch (refreshError) {
             console.error("Token refresh failed:", refreshError);
             isAuthenticated.value = false;
+            isAdmin.value = false;
         }
     }
 }
@@ -66,12 +74,24 @@ async function logout() {
             () => {
                 console.log("Logged out!");
                 isAuthenticated.value = false;
+                isAdmin.value = false;
                 document.cookie = "ehgz-access-token=; Max-Age=0"; // Clear the token cookie
             },
             { withCredentials: true }
         );
     } catch (error) {
         console.error("Logout failed:", error);
+    }
+}
+async function checkAdmin() {
+    const apiUrl = process.env.VUE_APP_API_URL;
+    try {
+        const response = await axios.get(`${apiUrl}/api/auth/token/verify/`);
+        if (response.status === 200) {
+            isAdmin.value = response.data.isadmin;
+        }
+    } catch (error) {
+        isAdmin.value = false;
     }
 }
 onMounted(() => {
