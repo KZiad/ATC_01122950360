@@ -466,7 +466,7 @@ input {
   color: #000000;
   text-align: left;
   font-family: "Segoe UI", sans-serif;
-  font-size: 50px;
+  font-size: 30px;
   font-weight: 600;
   padding: 20px 0 20px 50px;
   display: flex;
@@ -492,22 +492,34 @@ input {
 
 .details {
   display: flex;
-  flex-direction: row;
-  gap: 87px;
-  align-items: flex-start;
-  justify-content: space-between;
-  height: 100%;
   width: 100%;
+  gap: 20px;
+  justify-content: space-between;
+  height: 600px;
   padding: 20px 50px 20px 50px;
+  margin: auto;
+  flex-wrap: nowrap;
 
 }
 .details-text {
+  
   display: flex;
   flex-direction: column;
   gap: 70px;
   align-items: flex-start;
   justify-content: flex-start;
   flex-shrink: 0;
+  width: 50%;
+  
+}
+.image-book-button {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  max-width: 500px;
   width: 50%;
   
 }
@@ -518,14 +530,14 @@ input {
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
-  flex-grow: 2;
+  flex-grow: 0;
   
 }
 .event-details-name{
   color: #000000;
   text-align: left;
   font-family: "Jost-SemiBold", sans-serif;
-  font-size: 48px;
+  font-size: 20px;
   line-height: 150%;
   font-weight: 600;
   flex-grow: 2;
@@ -539,7 +551,7 @@ input {
   color: #000000;
   text-align: left;
   font-family: "Jost-Regular", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 150%;
   font-weight: 400;
   
@@ -552,7 +564,7 @@ input {
   color: #000000;
   text-align: left;
   font-family: "Jost-Regular", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 150%;
   font-weight: 400;
   
@@ -564,43 +576,36 @@ input {
   color: #000000;
   text-align: left;
   font-family: "Jost-Regular", sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 150%;
   font-weight: 400;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: #a7a7a73d;
+  background-color: #a7a7a728;
   padding: 10px;
   border-radius: 10px;
 }
-.image-book-button {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  height: 463px;
-  
-}
 .event-details-image {
   border-radius: 10px;
-  flex-shrink: 0;
-  width: 517px;
-  height: 340px;
-  
-  object-fit: cover;
+  max-width: 517px;
+  width: 100%;
   aspect-ratio: 517/340;
+
 }
 .details-button-price {
   display: flex;
   flex-direction: row;
-  gap: 39px;
+  gap: 0px;
+  right: 3px;
   align-items: flex-start;
   justify-content: space-between;
   flex-shrink: 0;
-  width: 517px;
+  width: 100%;
+
+  background-color: #794cd1;
+  border-radius: 10px 0px 10px 10px;
 }
 .book-button {
   flex: 1;
@@ -608,7 +613,7 @@ input {
   cursor: pointer;
 }
 .book-button-back {
-  border-radius: 5px;
+  border-radius: 5px 0 0 5px;
   width: 70%;
   height: 100%;
   overflow: visible;
@@ -623,22 +628,70 @@ input {
   font-family: "segoe UI", sans-serif;
   font-size: 20px;
   line-height: 150%;
+  height: 53px;
   font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+@media (max-width: 920px) {
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+  }
+  .details-text {
+    width: 100%;
+    gap: 20px;
+  }
+  .image-book-button {
+    width: 100%;
+    gap: 10px;
+  }
+  
+}
 .price {
-  color: #000000;
+  color: #794cd1;
   text-align: left;
   font-family: "Jost-SemiBold", sans-serif;
-  font-size: 32px;
+  font-size: 25px;
+  padding: 5px 20px 5px 20px;
   line-height: 150%;
   font-weight: 600;
-  
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  border-radius: 10px 0px 10px 0px;
+  border-color: #794cd1;
+  border-width: 3px;
+  border-style: solid;
+}
+.tags {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  font-family: "Segoe UI", sans-serif;
+  flex-wrap: wrap;
+}
+.tag-card{
+  background: #794cd1;
+  border-radius: 10px;
+  padding: 0px 10px 0px 10px;
+  color: #ffffff;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: 450;
 }
 
 

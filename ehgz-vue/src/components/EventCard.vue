@@ -6,7 +6,7 @@
                 :src="eventImageUrl"
                 alt="Event Image"
         /></router-link>
-        <div class="category-settings" v-if="isAdmin" ><div class="event-card-category"> {{ category }}</div><router-link :to="`/details/${eventID}/edit`"><img class="edit-cog" src="../assets/settings.png" /></router-link></div>
+        <div class="category-settings" v-if="isAdmin" ><div class="event-card-category"> {{ category }}</div><router-link to="/details/${eventID}/edit"><img class="edit-cog" src="../assets/settings.png" /></router-link></div>
         <div class="category-settings" v-else ><div class="event-card-category"> {{ category }}</div></div>
         <div class="frame-15">
             <div class="event-name-price">

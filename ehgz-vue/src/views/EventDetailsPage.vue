@@ -3,9 +3,15 @@
     <div class="details">
         <div class="details-text">
             <div class="details-top">
+                <div class="event-card-category">{{ eventDetails.category.name }}</div>
                 <div class="event-details-name">{{ eventDetails.name }}</div>
                 <div class="event-details-date">{{ eventDetails.date }}</div>
                 <div class="event-details-venue">{{ eventDetails.venue }}</div>
+                <div class="tags">
+                    
+                    <div class="tag-card" v-for="tag in eventDetails.tags" :key="tag"> #{{ tag.name }}</div>
+    
+                </div>
             </div>
             <div class="description">
                 {{ eventDetails.description }}
@@ -13,7 +19,7 @@
         </div>
         <div class="image-book-button">
             <img class="event-details-image" :src="eventDetails.image" />
-            <div class="button-price">
+            <div class="details-button-price">
                 <div @click="confirmBooking" class="book-button book-button-back">
                     <div class="book-button-text" v-if="!eventDetails.booked">Book Now</div>
                     <div class="book-button-text" v-else>Booking Details</div>
@@ -26,26 +32,28 @@
 </template>
 <style src="../assets/style.css" scoped></style>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 
 // get the event id from the url query params
 import { useRoute } from "vue-router";
 const router = useRoute();
 const eventId = ref(router.params.id); // Use the event ID from the route params
-const eventDetails = ref({
+const eventDetails = reactive({
     name: "",
     date: "",
     venue: "",
     description: "",
     image: "",
     price: "0.00", // Default price
+    booked: false,
+    category: "",
+    tags: [],
 });
 const url = process.env.VUE_APP_API_URL;
 async function fetchEventDetails () {
     try {
         const response = await axios.get(url + `/api/events/${eventId.value}`); // Replace with your API endpoint
-        eventDetails.value = response.data;
 
         // Format the date
         const formattedDate = new Intl.DateTimeFormat("en-GB", {
@@ -56,9 +64,16 @@ async function fetchEventDetails () {
             hour: "2-digit", // Two-digit hour (e.g., 12)
             minute: "2-digit", // Two-digit minute (e.g., 30)
             hour12: true, // 12-hour format
-        }).format(new Date(eventDetails.value.date));
-
-        eventDetails.value.date = formattedDate;
+        }).format(new Date(response.data.date));
+        eventDetails.name = response.data.name;        
+        eventDetails.date = formattedDate;
+        eventDetails.venue = response.data.venue;
+        eventDetails.price = response.data.price;
+        eventDetails.description = response.data.description;
+        eventDetails.image = response.data.image;
+        eventDetails.booked = response.data.booked;
+        eventDetails.tags = response.data.tags;
+        eventDetails.category = response.data.category;
     } catch (error) {
         console.error("Error fetching event details:", error);
     }
