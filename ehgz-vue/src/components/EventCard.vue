@@ -20,10 +20,10 @@
             <router-link
                 :to="`/details/${eventId}`"
                 class="event-button"
-                :class="{ 'book-now': !booked, 'booked': booked }"
+                :class="{ 'book-now': !booked, 'booked': booked && isAuthenticated }"
             >
                 <div class="event-button-text">
-                    {{ booked ? "Booked" : "Book Now" }}
+                    {{ booked && isAuthenticated ? "Booked" : "Book Now" }}
                 </div>
             </router-link>
 
@@ -83,8 +83,10 @@ export default {
     },
     setup() {
         const isAdmin = inject("isAdmin");
+        const isAuthenticated = inject("isAuthenticated");
         return {
             isAdmin,
+            isAuthenticated
         };
     },
 };

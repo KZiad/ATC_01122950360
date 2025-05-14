@@ -29,9 +29,9 @@
                 <div class="auth-button-text">Log In</div>
             </div>
             <div class="auth-button-or">or</div>
-            <div class="auth-button-signup" href="./signUp.html">
+            <router-link to="/sign-up" class="auth-button-signup">
                 <div class="auth-button-text">Sign Up</div>
-            </div>
+            </router-link>
         </div>
     </div>
 </template>

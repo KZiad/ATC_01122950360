@@ -21,7 +21,7 @@
             <img class="event-details-image" :src="eventDetails.image" />
             <div class="details-button-price">
                 <div @click="confirmBooking" class="book-button book-button-back">
-                    <div class="book-button-text" v-if="!eventDetails.booked">Book Now</div>
+                    <div class="book-button-text" v-if="!eventDetails.booked||!isAuthenticated">Book Now</div>
                     <div class="book-button-text" v-else>Booking Details</div>
                 </div>
                 <div class="price" v-if="eventDetails.price != '0.00'">{{(eventDetails.price).split(".")[0]}} EGP</div>
@@ -32,13 +32,15 @@
 </template>
 <style src="../assets/style.css" scoped></style>
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, inject } from "vue";
 import axios from "axios";
 
 // get the event id from the url query params
+import { useRouter } from "vue-router";
 import { useRoute } from "vue-router";
-const router = useRoute();
-const eventId = ref(router.params.id); // Use the event ID from the route params
+const route = useRoute();
+const router = useRouter();
+const eventId = ref(route.params.id); // Use the event ID from the route params
 const eventDetails = reactive({
     name: "",
     date: "",
@@ -78,14 +80,21 @@ async function fetchEventDetails () {
         console.error("Error fetching event details:", error);
     }
 }
+const isAuthenticated = inject("isAuthenticated")
 async function confirmBooking(){
+    if (!isAuthenticated.value){
+        router.push("/login")
+        return
+    }
     try {
         await axios.post(url + `/api/book/${eventId.value}`)
+        eventDetails.booked = true;
+        console.log("Booking successful");
         router.push(`/details/${eventId.value}/congratulations`);
     } catch(error){
         if (error.response.status === 400 && error.response.data.message === "You have already booked this event.") {
             console.error("Event already booked");
-            router.push(`/details/${eventId.value}/booking-details`);
+            router.push(`/details/${eventId.value}/booking`);    
         }
         else {
             console.error("Error fetching booking event:", error);

@@ -14,7 +14,7 @@
         </div>
         <div v-else class="buttons">
             <div class="header-button">
-                <router-link to="/sign-in">
+                <router-link to="/login">
                     <div class="header-button-text">Log In</div>
                 </router-link>
             </div>
