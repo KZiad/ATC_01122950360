@@ -16,7 +16,8 @@ class Event(models.Model):
     date = models.DateTimeField()
     venue = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image = models.ImageField(upload_to='event_images/{pk}.png', null=True, blank=True, default='event_images/default.png')
+    image = models.ImageField(upload_to='event_images/', null=True, blank=True)
+
     tags = models.ManyToManyField("Tag", blank=True)
 
     def __str__(self):
