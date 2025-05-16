@@ -26,6 +26,6 @@ if __name__ == "__main__":
     admin_email = os.environ.get("ADMIN_EMAIL")
     admin_password = os.environ.get("ADMIN_PASSWORD")
     if not User.objects.filter(email=admin_email).exists():
-        User.objects.create_superuser("admin", admin_email, admin_password)
+        User.objects.create_superuser(admin_email, admin_password)
         print("✅ Superuser created.")
     main()
