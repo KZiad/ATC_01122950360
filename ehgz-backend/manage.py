@@ -20,12 +20,5 @@ def main():
 
 
 if __name__ == "__main__":
-    django.setup()
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-    admin_email = os.environ.get("ADMIN_EMAIL")
-    admin_password = os.environ.get("ADMIN_PASSWORD")
-    if not User.objects.filter(email=admin_email).exists():
-        User.objects.create_superuser(admin_email, admin_password)
-        print("✅ Superuser created.")
+
     main()

@@ -13,3 +13,5 @@ django-allauth==65.2.0
 requests
 whitenoise
 gunicorn
+cloudinary
+django-cloudinary-storage
