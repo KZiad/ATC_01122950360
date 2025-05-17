@@ -76,7 +76,6 @@ async function login() {
     const response = await axios.post(`${apiUrl}/api/auth/login/`, data);
     if (response.status === 200) {
       console.log("Logged in!");
-      document.cookie = `ehgz-access-token=${response.data.access}; path=/`;
       isAuthenticated.value = true;
       await checkAdmin();
       if (isAdmin.value) {
@@ -88,6 +87,7 @@ async function login() {
   } catch (error) {
     isAuthenticated.value = false;
     isAdmin.value = false;
+    alert("Invalid email or password.");
     console.error("Login failed:", error);
   }
 

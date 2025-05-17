@@ -87,8 +87,6 @@ async function confirmSignUp() {
         };
         const response = await axios.post(`${url}/api/auth/register/`,data);
         if (response.status === 201) {
-            alert("Sign up successful!");
-            document.cookie = `ehgz-access-token=${response.data.access}; path=/`;
             isAuthenticated.value = true;
             router.push("/");
             const loginData = {
