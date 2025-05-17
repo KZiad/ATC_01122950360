@@ -1,8 +1,8 @@
 import json
-from rest_framework.serializers import ModelSerializer, SerializerMethodField, PrimaryKeyRelatedField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, PrimaryKeyRelatedField, CharField
+from rest_framework import serializers
 from .models import Event, Category, Tag
 import rest_framework.serializers as serializers
-
 
 class CategorySerializer(ModelSerializer):
     class Meta:
@@ -62,6 +62,7 @@ class EventCreateUpdateSerializer(ModelSerializer):
     tags_display = serializers.SerializerMethodField(read_only=True)
     # Readable display for category
     category_display = serializers.SerializerMethodField(read_only=True)
+    booked = SerializerMethodField()
     class Meta:
         model = Event
         fields = [
@@ -77,7 +78,8 @@ class EventCreateUpdateSerializer(ModelSerializer):
             'price',
             'image',
             'tags',
-            'tags_display'
+            'tags_display',
+            'booked'
         ]
         read_only_fields = ['id']
 
@@ -99,7 +101,13 @@ class EventCreateUpdateSerializer(ModelSerializer):
             instance.tags.set(tag_objs)
 
         return instance
-
+    def get_booked(self, obj):
+        object = Event.objects.get(id=obj.id)
+        """Check if the user is in the booked_by field."""
+        request = self.context.get('request')
+        if request and request.user.is_authenticated:
+            return object.booked_by.filter(id=request.user.id).exists()
+        return False
     def get_tags_display(self, obj):
         return [tag.name for tag in obj.tags.all()]
     

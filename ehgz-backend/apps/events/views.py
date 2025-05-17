@@ -20,7 +20,7 @@ class EventListView(generics.ListCreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         event = serializer.save()
-        return Response(EventSerializer(event).data, status=status.HTTP_201_CREATED)
+        return Response(EventCreateUpdateSerializer(event).data, status=status.HTTP_201_CREATED)
     
     def get(self, request, *args, **kwargs):
         self.pagination_class = EventPagination
