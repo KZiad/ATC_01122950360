@@ -2,48 +2,38 @@
 Ehgz is a full-stack event booking system that allows users to browse and book
 events, manage their bookings, and provide an integrated web-based admin panel for event
 management.
-<h1>📍 Requirements</h1>
 
-<h2>🌍 Frontend</h2>
+<h1>Deployment</h1>
 
-<h3>🔐 Authentication</h3>
+Ehgz is deployed on 2 services:
+- Render: for the Django Rest Framework backend + Postgres database.
+- Vercel: for the Vue.js frontend
 
-- [x] Users can register and log in.
-- [x] The "Forgot Password" functionality is not required.
-<h3>🏠 Home Page (Event Listings)</h3>
+<h2> Links </h2>
 
-- [x] Display events using a grid or flexbox layout.
-- [x] Events that a user has already booked will show a "Booked" label instead of the "Book
-Now" button.
-- [x] Each event card includes a "Book Now" button (if not yet booked).
-<h3>📄 Event Details Page</h3>
+Frontend: https://ehgz.vercel.app/
 
-- [ ] Shows full event information:
-  -  Event Name, Description, Category, Date, Venue, Price, and Image
-- [x] Includes a "Book Now" button (books 1 ticket per click for user)
-- [ ] Upon booking, the user is redirected to a Congratulations screen.
-- [x] No payment integration is required.
-<h3>🧾 Admin Panel</h3>
+Backend: https://ehgz-api.onrender.com/docs
+<h1>How to run</h1>
+Ehgz uses a Django Rest Framework backend and a Vue.js frontend
 
-- [ ] Admin can Create, Read, Update, and Delete events.
-- [ ] The admin panel is a separate screen within the same web application.
-- [x] User roles are needed (Admin, User).
-<h2>🛠 Backend</h2>
-<h3>Basic Features:</h3>
+<h2>Backend</h2>
+What You need:
 
-- [x] Authentication
-- [x] Event Management API (Done through django admin)
-- [x] Booking API
-<h3>🎯 Optional Enhancements (Nice To Have)</h3>
+- Docker (linux containers)
+- makefile support
 
-- [x] Role-based permissions
-- [x] Tags and categories for events
-- [x] Event image upload functionality (Done through django admin)
-- [ ] Pagination or lazy loading
-- [x] Responsive design
-<h3>🚀 Bonus Features (For Super Heros)</h3>
+To get started, do ```make up``` in the ```ehgz_backend``` directory. This will build the docker image and run the container.
+- To run the migrations, do ```make migrate```
+- To create a superuser, do ```make createsuperuser```
 
-- [ ] Backend deployment (e.g., on Render, Vercel, or Heroku)
-- [ ] Multi-language support (Ex: English - Arabic)
-- [ ] Unit testing
-- [ ] Dark mode support
+<h2> Frontend </h2>
+The frontend uses Vue.js for development. To get started, do the following:
+
+- Install Node.js and npm
+- Install Vue CLI globally using npm: ```npm install -g @vue/cli```
+- Install the dependencies: ```npm install```
+- Run the development server: ```npm run serve```
+OR
+- Build the website: ```npm run serve```
+
