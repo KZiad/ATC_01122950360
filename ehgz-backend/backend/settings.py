@@ -95,10 +95,11 @@ ROOT_URLCONF = 'backend.urls'
 # Allow credentials (cookies, HTTP auth)
 CORS_ALLOW_CREDENTIALS = True
 
+
 # Instead of ALL_ORIGINS, list the exact origins that will send credentials:
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8080",
     os.environ.get("FRONTEND_URL", "http://localhost:8080"),  # production URL
+    "http://127.0.0.1:8080",
     # add any other allowed clients here
 ] 
 
@@ -203,6 +204,9 @@ REST_AUTH = {
     "JWT_AUTH_COOKIE": "ehgz-access-token",
     "JWT_AUTH_REFRESH_COOKIE": "ehgz-refresh-token",
     "REGISTER_SERIALIZER": "apps.accounts.serializers.CustomRegisterSerializer",
+    "JWT_AUTH_SAMESITE": False,
+    "JWT_AUTH_SECURE": True,  
+
 }
 AUTHENTICATION_BACKENDS = [
     "allauth.account.auth_backends.AuthenticationBackend",
