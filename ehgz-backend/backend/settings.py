@@ -97,10 +97,10 @@ CORS_ALLOW_CREDENTIALS = True
 
 # Instead of ALL_ORIGINS, list the exact origins that will send credentials:
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",    # adjust to your Vue dev-server URL
     "http://127.0.0.1:8080",
+    os.environ.get("FRONTEND_URL", "http://localhost:8080"),  # production URL
     # add any other allowed clients here
-]
+] 
 
 # (remove or set to False)
 CORS_ALLOW_ALL_ORIGINS = False
