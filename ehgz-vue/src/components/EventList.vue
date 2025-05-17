@@ -1,12 +1,6 @@
 <template>
-        <div class="events-addevent">
-            <div class="events">Events</div>
-            <div class="add-event">
-                <router-link to="/addevent" class="header-button header-button-text">
-                    Add Event
-                </router-link>
-                </div>
-        </div>
+
+        
     <div class="search-bar">
         <input
             placeholder="Search..."
@@ -16,7 +10,27 @@
             @keyup.enter="fetchEvents(1,search_input)"
         />
     </div>
-    <div class="event-list-container">
+    <div
+        class="pagination"
+        v-if="events.next !== null && events.previous !== null"
+    >
+        <div class="pagination-back" @click="pagination(-1)">&lt;</div>
+        <div
+            class="pagination-number"
+            v-for="page in paginationNumbers.items"
+            :key="page"
+            :class="{
+                'pagination-selected': page === paginationDetails.page,
+                'pagination-number': page !== paginationDetails.page,
+            }"
+            @click="fetchEvents(page)"
+        >
+            {{ page }}
+        </div>
+        <div class="pagination-next" @click="pagination(1)">&gt;</div>
+    </div>
+    <LoadingCircle v-if="!isLoaded" />
+    <div v-else class="event-list-container">
         <div class="event-card-group">
             <EventCard
                 v-for="event in events"
@@ -56,14 +70,15 @@
 import EventCard from "./EventCard.vue";
 import { ref, onMounted, reactive, watch } from "vue";
 import axios from "axios";
-
+import LoadingCircle from "./LoadingCircle.vue";
+const isLoaded = ref(false);
 const events = ref([]);
 const paginationDetails = reactive({
     next: null,
     previous: null,
     count: -1,
     page: 1,
-    page_size: 3,
+    page_size: 9,
     totalPages: 0,
 });
 const paginationNumbers = reactive({
@@ -74,7 +89,7 @@ const search_input = ref("");
 let debounceTimeout = null;
 
 async function populatePagination() {
-    const totalPages = Math.ceil(paginationDetails.count / 3);
+    const totalPages = Math.ceil(paginationDetails.count / paginationDetails.page_size);    
     paginationDetails.totalPages = totalPages;
     paginationNumbers.items = new Array(totalPages);
     for (let i = 1; i <= totalPages; i++) {
@@ -99,6 +114,7 @@ async function fetchEvents(page=paginationDetails.page,search=search_input.value
         paginationDetails.page = page;
         search_input.value = search;
         populatePagination();
+        isLoaded.value = true;
 
     } catch (error) {
         console.error("Error fetching events:", error);

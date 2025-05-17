@@ -9,9 +9,11 @@
             />
         </router-link>
 
-        <div v-if="isAuthenticated" class="header-button" @click="logout">
-            <div @click="logout()" class="header-button-text">Log Out</div>
-        </div>
+
+            <div v-if="isAuthenticated" class="header-button" @click="logout">
+                <div @click="logout()" class="header-button-text">Log Out</div>
+            </div>
+
         <div v-else class="buttons">
             <div class="header-button">
                 <router-link to="/login">
@@ -30,6 +32,8 @@
 <script setup>
 import { inject, onMounted } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
+const router = useRouter();
 const isAuthenticated = inject("isAuthenticated");
 const isAdmin = inject("isAdmin");
 async function verifyToken() {
@@ -40,8 +44,7 @@ async function verifyToken() {
         if (response.status === 200) {
             console.log("Logged in!");
             isAuthenticated.value = true;
-                            checkAdmin();
-
+            checkAdmin();
         }
     } catch (error) {
         console.error("Token verification failed:", error);
@@ -74,13 +77,15 @@ async function logout() {
             () => {
                 console.log("Logged out!");
                 isAuthenticated.value = false;
-                isAdmin.value = false;
-                document.cookie = "ehgz-access-token=; Max-Age=0"; // Clear the token cookie
+                isAdmin.value = false;  
+                
             },
             { withCredentials: true }
         );
     } catch (error) {
         console.error("Logout failed:", error);
+    } finally {
+        router.push("/");
     }
 }
 async function checkAdmin() {

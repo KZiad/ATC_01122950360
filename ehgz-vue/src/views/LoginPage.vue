@@ -78,8 +78,12 @@ async function login() {
       console.log("Logged in!");
       document.cookie = `ehgz-access-token=${response.data.access}; path=/`;
       isAuthenticated.value = true;
-      checkAdmin();
-      router.push("/");
+      await checkAdmin();
+      if (isAdmin.value) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     }
   } catch (error) {
     isAuthenticated.value = false;

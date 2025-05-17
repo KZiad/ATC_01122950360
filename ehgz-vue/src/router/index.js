@@ -8,6 +8,7 @@ import EditEvent from '@/views/EditEvent.vue';
 import AddEvent from '@/views/AddEvent.vue';
 import CongratulationsPage from '@/views/CongratulationsPage.vue';
 import BookingDetails from '@/views/BookingDetails.vue';
+import AdminPanel from '@/views/AdminPanel.vue';
 
 const routes = [
     { path: '/', component: HomePage, name: 'Home' },
@@ -17,6 +18,7 @@ const routes = [
     {path: "/details/:id/edit", component: EditEvent, name: "EventEdit"},
     {path: "/details/:id/congratulations", component: CongratulationsPage, name: "CongratulationsPage"},
     {path: "/details/:id/booking", component: BookingDetails, name: "BookingDetails"},
+    {path:"/admin",component: AdminPanel,name:"AdminPanel"},
 
     {path:"/addevent",component: AddEvent,name:"AddEvent"},
     {path:"/:pathMatch(.*)*", redirect: "/"},

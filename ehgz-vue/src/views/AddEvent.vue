@@ -62,7 +62,7 @@
                 <label for="event-tags-label">Tags</label>
                 <input type="text" id="event-tags" v-model="tags" placeholder="Add tags separated by commas (tag,tag,tag)" />
         </div>
-        <div class="submit-button-container" @="submitEvent">
+        <div class="submit-button-container" @click="submitEvent">
             Submit
         </div>
     </div>
@@ -71,9 +71,9 @@
 
 <script setup>
 import { inject, onMounted, reactive } from "vue";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 
-const router = useRoute();
+const router = useRouter();
 
 const isAdmin = inject("isAdmin");
 if (!isAdmin) {
@@ -121,6 +121,7 @@ const eventVenue = ref('');
 const eventPrice = ref('');
 const eventCategory = ref('');
 const eventDescription = ref('');
+const eventTags = ref([]);
 const tags = ref('');
 const url = process.env.VUE_APP_API_URL;
 const categories = reactive([]);
@@ -131,6 +132,41 @@ async function populateCategories() {
         categories.push(data.data[i]);
     }
 }
+async function cleanTags() {
+    const tagsArray = tags.value.split(',');
+    for (let i = 0; i < tagsArray.length; i++) {
+        tagsArray[i] = tagsArray[i].trim();
+    }
+    eventTags.value = JSON.stringify(tagsArray);
+  
+}
+
+async function submitEvent() {
+    await cleanTags();
+    const formData = new FormData();
+    formData.append('name', eventName.value);
+    formData.append('date', eventDate.value + 'T' + eventTime.value);
+    formData.append('venue', eventVenue.value);
+    formData.append('description', eventDescription.value);
+    formData.append('price', eventPrice.value);
+    formData.append('category', eventCategory.value);
+    formData.append('tags', eventTags.value);
+    if (fileInput.value.files[0]) {
+        formData.append('image', fileInput.value.files[0]);
+    }
+    
+    try {
+        const response = await axios.post(`${url}/api/events/`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        router.push("/details/" + response.data.id);
+    } catch (error) {
+        console.error("Error submitting the event:", error);
+    }
+}
+
 onMounted(() => {
     populateCategories();
 });

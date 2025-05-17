@@ -1,16 +1,16 @@
 <template>
     <div class="title"><router-link :to="`/details/${eventDetails.id}`" class="back-button-back">&lt;</router-link> Booking Details</div>
-    <div style="display: flex; width: 100%; justify-content: center;"><div class="booking-details">
+    <LoadingCircle v-if="!isLoaded" />
+    <div v-else style="display: flex; width: 100%; justify-content: center;"><div class="booking-details">
         <div class="booking-details-image">
             <img :src="eventDetails.image" alt="Event Image" />
         </div>
         <div class="details-text booking-details-text">
             <div class="details-top">
-                <div class="event-card-category">{{ eventDetails.category.name }}</div>
+                <div class="event-card-category">{{ eventDetails.category_display }}</div>
                 <div class="event-details-name">{{ eventDetails.name }}</div>
                 <div class="event-details-date">{{ eventDetails.date }}</div>
                 <div class="event-details-venue">{{ eventDetails.venue }}</div>
-
             </div>
 
         </div>
@@ -19,11 +19,12 @@
 
 <script setup>
 import { reactive,ref, onMounted } from "vue";
+import LoadingCircle from "@/components/LoadingCircle.vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 const router = useRoute();
 const eventId = ref(router.params.id); // Use the event ID from the route params
-
+const isLoaded = ref(false);
 const url = process.env.VUE_APP_API_URL;
 const eventDetails = reactive({
     id:0,
@@ -34,10 +35,11 @@ const eventDetails = reactive({
     image: "",
     price: "0.00", // Default price
     booked: false,
-    category: "",
+    category_display: "",
     tags: [],
 });
 async function fetchEventDetails () {
+    isLoaded.value = false;
     try {
         const response = await axios.get(url + `/api/events/${eventId.value}`); // Replace with your API endpoint
 
@@ -60,9 +62,11 @@ async function fetchEventDetails () {
         eventDetails.image = response.data.image;
         eventDetails.booked = response.data.booked;
         eventDetails.tags = response.data.tags;
-        eventDetails.category = response.data.category;
+        eventDetails.category_display = response.data.category_display;
     } catch (error) {
         console.error("Error fetching event details:", error);
+    } finally {
+        isLoaded.value = true;
     }
 }
 onMounted(() => {

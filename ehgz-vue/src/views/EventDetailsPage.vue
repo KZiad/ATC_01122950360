@@ -1,15 +1,16 @@
 <template>
     <div class="title"><router-link to="/" class="back-button-back">&lt;</router-link>Event Details</div>
-    <div class="details">
+    <LoadingCircle v-if="!isLoaded" />
+    <div v-else class="details">
         <div class="details-text">
             <div class="details-top">
-                <div class="event-card-category">{{ eventDetails.category.name }}</div>
+                <div class="event-card-category">{{ eventDetails.category_display }}</div>
                 <div class="event-details-name">{{ eventDetails.name }}</div>
                 <div class="event-details-date">{{ eventDetails.date }}</div>
                 <div class="event-details-venue">{{ eventDetails.venue }}</div>
                 <div class="tags">
                     
-                    <div class="tag-card" v-for="tag in eventDetails.tags" :key="tag"> #{{ tag.name }}</div>
+                    <div class="tag-card" v-for="tag in eventDetails.tags_display" :key="tag"> #{{ tag }}</div>
     
                 </div>
             </div>
@@ -18,14 +19,18 @@
             </div>
         </div>
         <div class="image-book-button">
-            <img class="event-details-image" :src="eventDetails.image" />
-            <div class="details-button-price">
+            <img  class="event-details-image" :src="eventDetails.image" />
+            <div v-if="!isAdmin" class="details-button-price">
                 <div @click="confirmBooking" class="book-button book-button-back">
                     <div class="book-button-text" v-if="!eventDetails.booked||!isAuthenticated">Book Now</div>
                     <div class="book-button-text" v-else>Booking Details</div>
                 </div>
                 <div class="price" v-if="eventDetails.price != '0.00'">{{(eventDetails.price).split(".")[0]}} EGP</div>
             </div>
+            <div v-else class="details-admin-buttons">
+                <router-link :to="`/details/${eventId}/edit`" class="admin-edit-button header-button-text">Edit</router-link>
+                <div @click="deleteEvent()" class="admin-delete-button header-button-text">Delete</div>
+                </div>
         </div>
     </div>
 
@@ -33,6 +38,7 @@
 <style src="../assets/style.css" scoped></style>
 <script setup>
 import { ref, onMounted, reactive, inject } from "vue";
+import LoadingCircle from "@/components/LoadingCircle.vue";
 import axios from "axios";
 
 // get the event id from the url query params
@@ -49,9 +55,10 @@ const eventDetails = reactive({
     image: "",
     price: "0.00", // Default price
     booked: false,
-    category: "",
-    tags: [],
+    category_display: "",
+    tags_display: [],
 });
+const isLoaded = ref(false);
 const url = process.env.VUE_APP_API_URL;
 async function fetchEventDetails () {
     try {
@@ -74,13 +81,17 @@ async function fetchEventDetails () {
         eventDetails.description = response.data.description;
         eventDetails.image = response.data.image;
         eventDetails.booked = response.data.booked;
-        eventDetails.tags = response.data.tags;
-        eventDetails.category = response.data.category;
+        eventDetails.tags_display = response.data.tags_display;
+        eventDetails.category_display = response.data.category_display;
     } catch (error) {
         console.error("Error fetching event details:", error);
     }
+    finally {
+        isLoaded.value = true;
+    }
 }
 const isAuthenticated = inject("isAuthenticated")
+const isAdmin = inject("isAdmin")
 async function confirmBooking(){
     if (!isAuthenticated.value){
         router.push("/login")
@@ -101,7 +112,46 @@ async function confirmBooking(){
         }
     }
 }
+async function deleteEvent() {
+    if (confirm("Are you sure you want to delete this event?")) {
+        try {
+            await axios.delete(url + `/api/events/${eventId.value}`);
+            router.push("/admin/");
+        } catch (error) {
+            console.error("Error deleting event:", error);
+        }
+    }
+}
 onMounted(() => {
     fetchEventDetails();
 });
 </script>
+<style scoped>
+.admin-edit-button {
+    background-color: #7c7c7c;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    margin-right: 10px;
+    width : 100%;
+}
+.admin-delete-button {
+    background-color: #ba2828;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 15px;
+    text-decoration: none;
+    margin-right: 10px;
+    width : 100%;
+}
+.details-admin-buttons{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap:10px;
+    width: 60%;
+}
+</style>

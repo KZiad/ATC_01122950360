@@ -1,12 +1,13 @@
 <template>
     <div class="title"><router-link :to="`/details/${eventDetails.id}`" class="back-button-back">&lt;</router-link> Congratulations! Your ticket was booked!</div>
-    <div style="display: flex; width: 100%; justify-content: center;"><div class="booking-details">
+    <LoadingCircle v-if="!isLoaded" />
+    <div v-else style="display: flex; width: 100%; justify-content: center;"><div class="booking-details">
         <div class="booking-details-image">
             <img :src="eventDetails.image" alt="Event Image" />
         </div>
         <div class="details-text booking-details-text">
             <div class="details-top">
-                <div class="event-card-category">{{ eventDetails.category.name }}</div>
+                <div class="event-card-category">{{ eventDetails.category_display }}</div>
                 <div class="event-details-name">{{ eventDetails.name }}</div>
                 <div class="event-details-date">{{ eventDetails.date }}</div>
                 <div class="event-details-venue">{{ eventDetails.venue }}</div>
@@ -23,7 +24,8 @@ import axios from "axios";
 import { useRoute } from "vue-router";
 const router = useRoute();
 const eventId = ref(router.params.id); // Use the event ID from the route params
-
+import LoadingCircle from "@/components/LoadingCircle.vue";
+const isLoaded = ref(false);
 const url = process.env.VUE_APP_API_URL;
 const eventDetails = reactive({
     id:0,
@@ -34,7 +36,7 @@ const eventDetails = reactive({
     image: "",
     price: "0.00", // Default price
     booked: false,
-    category: "",
+    category_display: "",
     tags: [],
 });
 async function fetchEventDetails () {
@@ -60,7 +62,8 @@ async function fetchEventDetails () {
         eventDetails.image = response.data.image;
         eventDetails.booked = response.data.booked;
         eventDetails.tags = response.data.tags;
-        eventDetails.category = response.data.category;
+        eventDetails.category_display = response.data.category_display;
+        isLoaded.value = true;
     } catch (error) {
         console.error("Error fetching event details:", error);
     }

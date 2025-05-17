@@ -16,7 +16,15 @@ export default {
     setup() {
         const isAuthenticated = ref(false);
         const isAdmin = ref(false);
+        function setIsAuthenticated(value) {
+            isAuthenticated.value = value;
+        }
+        function setIsAdmin(value) {
+            isAdmin.value = value;
+        }
         provide("isAuthenticated", isAuthenticated);
+        provide("setIsAuthenticated", setIsAuthenticated);
+        provide("setIsAdmin", setIsAdmin);
         provide("isAdmin", isAdmin);
     },
 };
